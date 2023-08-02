@@ -1,0 +1,43 @@
+
+LoopTools installation for HEPfit
+==================================
+
+==> Download the tarball from: https://feynarts.de/looptools/LoopTools-*.tar.gz
+
+$ curl -O https://feynarts.de/looptools/LoopTools-*.tar.gz
+
+==> gunzip and/or untar the source file by
+
+$ tar -xf LoopTools-*.tar.gz
+$ cd LoopTools-*
+
+Run the "./configure" script by performing cross-compile for x86_64 arch.
+
+$ arch -x86_64 ./configure
+$ arch -x86_64 make
+$ make install
+
+Make sure that 'x86_64-Darwin' directory created
+
+$ ls -ltrh
+$ cd x86_64-Darwin
+
+Here 'lib', 'bin', 'include' directory must be created. Next, we have to symlink with the HEPfit directory. 
+
+$ mkdir ~/HEPfit/LoopTools
+$ cd ~/HEPfit/LoopTools
+
+and symlink 'lib', 'bin', 'include' directory within the LoopTools installation directory (~/LoopTools-*/) by the following command:
+ 
+$ ln -is ~/LoopTools-*/x86_64-Darwin/lib .
+$ ln -is ~/LoopTools-*/x86_64-Darwin/bin .
+$ ln -is ~/LoopTools-*/x86_64-Darwin/include .
+$ ln -is ~/LoopTools-*/x86_64-Darwin/lib ./lib64
+
+$ ls -lrth
+
+
+Remarks:
+========
+
+Here we install LoopTools for x86 arch and properly symlink with the HEPfit directory for successfully building the project on NetBeans. 

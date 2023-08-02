@@ -1,0 +1,105 @@
+
+Set up HEPfit package on NetBeans
+==================================
+
+To build developer version of HEPfit on NetBeans, first install all the dependencies for x86_64 architecture:
+
+1. GSL
+2. ROOT
+3. BOOST
+4. BAT
+
+
+BAT installation for HEPfit
+============================
+
+==> Download the tarball from: https://github.com/bat/bat/releases/download/v1.0.0/BAT-1.0.0.tar.gz
+
+$ curl -O https://github.com/bat/bat/releases/download/v1.0.0/BAT-1.0.0.tar.gz
+
+==> gunzip and/or untar the source file by
+
+$ tar -xf *.tar.gz
+$ cd BAT-1.0.0
+
+==> copy files in BATv1.0-dev/src-dev (from HEPfit directory) to BAT-1.0.0/src
+
+$ cp -aiv ~/HEPfit/BATv1.0.0-dev/src-dev/* src
+
+Next, run the "./configure" script by performing cross-compile for x86_64 arch.
+
+After successfully install BAT in the BAT-1.0.0 directory, we have to symlink with the HEPfit directory. 
+
+Note:
+
+1. Default HEPfit directory where the NetBeans project navigate. 
+
+Create a BAT directory in the HEPfit directory:
+
+$ mkdir ~/HEPfit/BAT
+$ cd ~/HEPfit/BAT
+
+and symlink 'lib', 'bin', 'include' directory within the BAT installation directory (~/BAT-1.0.0/) by the following command:
+ 
+$ ln -is ~/BAT-1.0.0/lib .
+$ ln -is ~/BAT-1.0.0/bin .
+$ ln -is ~/BAT-1.0.0/include .
+
+
+
+BAT-parallel installation for HEPfit
+=====================================
+
+Create a separate directory for BAT parallel installation
+
+$ mkdir BAT_parallel
+$ cd BAT_parallel
+
+==> Download the tarball from: https://github.com/bat/bat/releases/download/v1.0.0/BAT-1.0.0.tar.gz
+
+$ curl -O https://github.com/bat/bat/releases/download/v1.0.0/BAT-1.0.0.tar.gz
+
+==> gunzip and/or untar the source file by
+
+$ tar -xf *.tar.gz
+$ cd BAT-1.0.0
+
+==> Make sure that pwd is: ~/BAT_parallel/BAT-1.0.0/
+
+==> copy files in BATv1.0.0_parallel-dev/src-dev (from HEPfit directory) to BAT-1.0.0/src
+
+$ cp -aiv ~/HEPfit/BATv1.0.0_parallel-dev/src-dev/* src
+
+==> copy files in BATv1.0.0_parallel-dev/BAT-dev (from HEPfit directory) to BAT-1.0.0/BAT
+
+$ cp -aiv ~/HEPfit/BATv1.0.0_parallel-dev/BAT-dev/* BAT
+
+Next, run the "./configure" script by performing cross-compile for x86_64 arch.
+
+After successfully install BAT-parallel in the ~/BAT_parallel/BAT-1.0.0/ directory, we have to symlink with the HEPfit directory. 
+
+Note:
+
+1. Default HEPfit directory where the NetBeans project navigate. 
+
+Create a BAT_parallel directory in the HEPfit directory:
+
+$ mkdir ~/HEPfit/BAT_parallel
+$ cd ~/HEPfit/BAT_parallel
+
+and symlink 'lib', 'bin', 'include' directory within the BAT_parallel installation directory (~/BAT_parallel/BAT-1.0.0/) by the following command:
+ 
+$ ln -is ~/BAT_parallel/BAT-1.0.0/lib .
+$ ln -is ~/BAT_parallel/BAT-1.0.0/bin .
+$ ln -is ~/BAT_parallel/BAT-1.0.0/include .
+
+$ ls -ltrh
+
+
+
+Remarks:
+========
+
+Here we install BAT and BAT-parallel for x86 arch and properly symlink with the HEPfit directory for successfully building the project on NetBeans. 
+
+

@@ -1,0 +1,105 @@
+
+Build packages for x86 architecture on ARM-MAC
+===============================================
+
+In general, compiling x86 packages on ARM architecture, most of the times you might get the following error:
+
+==> linker error: "building for macOS-x86_64 but attempting to link with file built for macOS-arm64"
+
+or, 
+
+==> linker error: "building for macOS-arm64 but attempting to link with file built for macOS-x86_64" when compiling ARM packages on x86 architecture. 
+
+To overcome the above issue, first install all the dependencies for the specified packages using ARM-brew (for arm64 built) and x86-brew (for x86_64 built).
+
+
+1. Install cmake for x86 architecture using x86-brew on ARM-MAC
+
+First, untar the source file:
+
+$ tar -xf <pkg>.source.tar.gz
+
+Next, create a directory where to build the packages and navigate: 
+
+$ mkdir pkg-build
+$ cd pkg-build
+
+Now, compile packages from source file for x86 arch:
+
+$ cmake -Dbuiltin_glew=ON -DCMAKE_OSX_ARCHITECTURES="x86_64"  ../<pkg>
+$ make -j
+$ make install, or, sudo make install 
+
+where "-Dbuiltin_glew=ON" fixes the recent error in "cmake", and -DCMAKE_OSX_ARCHITECTURES="x86_64" set the architecture to x86_64 during compiling.
+
+Note:
+
+1. CMake generates the appropriate build scripts based on the system and the configuration in "CMakeLists.txt" file, and compile the code by the build command ("make").
+
+2. "Typically, the 'sudo' command is required when performing an installation (such as 'make install'), but it is often unnecessary for building the software.
+
+3. "../<pkg>"  specifying the path to the source code directory.
+
+In this way, successfully build the packages from source file using "cmake" for x86_64 arch on ARM based MAC.
+
+Note: If all the required dependencies for the specified packages is not installed properly for x86_64 arch, you might get the following error during "make":
+
+==> warning: "ignoring file .. building for macOS-x86_64 but attempting to link with file built for macOS-arm64"
+
+
+Build packages using "./configure" for x86 architecture on ARM-MAC
+====================================================================
+
+Most likely Autotools build systems './configure' script, which is implemented differently from the 'CMake' build system.
+
+First, untar the source file:
+
+$ tar -xf <pkg>.source.tar.gz
+
+and then navigate to the <pkg> directory and run the './configure' script with options.
+
+The "./configure" script performs various tasks such as:
+ 
+ 1. Checking the system environment and dependencies.
+ 2. Configuring the package based on the detected system and user-provided options.
+ 3. Generating a Makefile specific to the system configuration and compile by "make" command.
+
+=> When using autoconf, you can perform cross-compilation by utilizing the "--host" and "--build" options. 
+
+The "--host" option specifies the target platform, allowing you to compile for a different architecture. 
+
+For instance, on an arm Mac, you can cross-compile for x86_64 using the following command:
+
+$ ./configure --build `./config.guess` --host x86_64-apple-darwin CFLAGS='-arch x86_64 -O2 -g'
+$ arch -x86_64 make
+$ make install  
+
+By specifying "--host x86_64-apple-darwin", the configuration process will generate appropriate build scripts and settings for compiling the code specifically for the x86_64 architecture on macOS.
+
+Similarly, on an x86-64 Mac, you can cross-compile for arm64 using the following command:
+
+$ ./configure --build `./config.guess` --host arm64-apple-darwin CFLAGS='-arch arm64 -O2 -g'
+$ make
+$ make install
+
+Note:
+
+1. The additional CFLAGS (compiler flags) are necessary because there is no prefixed version of gcc (or clang) available to match the value specified in the "--host" option.
+
+2. Make sure that 'config.guess' file exist in the <pkg> directory, where runing the './configure' script. 
+
+If the "config.guess" file is missing and only the "configure" executable file is available, use the following command instead.
+
+$ arch -x86_64 ./configure
+$ arch -x86_64 make
+$ make install
+
+
+Remarks:
+========
+
+In this way, you can building packages using the two different methods of using 'CMake' and executing the "./configure" script by performing cross-compile for x86_64 on an arm64 Mac and vice versa. 
+
+
+
+

@@ -1,0 +1,79 @@
+
+Installation of Homebrew on MAC
+================================
+
+There are two types of architecture in MAC:
+
+1. x86 architecture (intel processor)
+
+2. ARM architecture (M1 or M2 processor)
+
+Note: the package managers such as Homebrew on both architectures are different.
+
+Usually Homebrew installed in ARM mode on ARM architecture and in x86 mode on x86 architecture.
+
+
+Installation of ARM brew on ARM-MAC
+====================================
+
+Run the command to install Homebrew in an ARM shell:
+
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+After that run the two command:
+
+$ (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> {$HomePath}.zprofile
+
+$ eval "$(/opt/homebrew/bin/brew shellenv)" 
+
+In order to set ARM-MAC for x86 development using Homebrew, we have to first install Homebrew in an x86 mode that means running command must be in an x86 shell instead of ARM shell.  
+
+Installation of x86 brew on ARM-MAC
+====================================
+
+$ arch -x86_64 zsh   #set the zsh shell to x86 mode
+
+Run the command to install Homebrew in an x86 shell:
+
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"  #install brew in an x86 shell
+
+After that run the two command:
+
+$ (echo; echo 'eval "$(/usr/local/bin/brew shellenv)"') >> {$HomePath}.zprofile
+
+$ eval "$(/usr/local/bin/brew shellenv)" 
+
+Brew installed successfully! Now you are in x86 shell and install x86 packages as usual:
+
+$ arch -x86_64 brew install <packages> 
+or $ arch -x86_64 /usr/local/bin/brew install <packages> 
+
+Note: x86 brew install packages into /usr/local/bin instead of /opt/homebrew/bin
+
+If you run:
+
+$ brew install <packages> 
+
+then both version (x86 and arm) of packages installed in their specified directions.
+
+You might get the following error:
+
+Error: The `brew link` step did not complete successfully
+The formula built, but is not symlinked into /usr/local
+
+To create a symlink, run the command:
+
+$ sudo chown -R $USER /usr/local/lib /usr/local/include /usr/local/bin /usr/local/Cellar  #It requires user password
+
+All done!
+
+Remarks:
+========
+
+You can install any Homebrew formula using the above steps in both x86 architecture and ARM architecture. Installation path for x86 is /usr/local 
+and for ARM is /opt/homebrew
+
+
+
+
+ 
